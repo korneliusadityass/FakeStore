@@ -1,9 +1,8 @@
+import 'package:appsmobile/main.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../main.dart';
 
-final Provider<NavigationService> navigationProvider =
-    Provider<NavigationService>(
+final Provider<NavigationService> navigationProvider = Provider<NavigationService>(
   (ProviderRef<NavigationService> ref) => NavigationService(),
 );
 
@@ -43,8 +42,7 @@ class NavigationService {
 
     return await navigatorKey.currentState!.pushNamedAndRemoveUntil(
       routeName,
-      (Route<dynamic> route) =>
-          !(route.isCurrent && route.settings.name == routeName),
+      (Route<dynamic> route) => !(route.isCurrent && route.settings.name == routeName),
       arguments: arguments,
     );
   }

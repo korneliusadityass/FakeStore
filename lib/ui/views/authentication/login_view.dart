@@ -51,7 +51,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                         child: Column(
                       children: <Widget>[
                         Image.asset(
-                          'assets/images/NO8hx.png',
+                          'asset/image/NO8hx.png',
                           width: double.infinity,
                         ),
                         const Padding(
@@ -61,7 +61,9 @@ class _LoginViewState extends ConsumerState<LoginView> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              TextField(textAlign: TextAlign.start,),
+                              TextField(
+                                textAlign: TextAlign.start,
+                              ),
                             ],
                           ),
                         ),
