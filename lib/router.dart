@@ -1,4 +1,5 @@
 import 'package:appsmobile/core/app_constants/route.dart';
+import 'package:appsmobile/ui/views/cart_view.dart';
 import 'package:appsmobile/ui/views/detail/detail_view.dart';
 import 'package:appsmobile/ui/views/home/dashboard_view.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +50,12 @@ class AppRouter {
         return buildRoute(
           builder: (_) => DetailProduct(
             param: param,
+          ),
+        );
+      case Routes.cart:
+        return buildRoute(
+          builder: (_) => const Cart(
+            addCartProduct: [],
           ),
         );
       default:

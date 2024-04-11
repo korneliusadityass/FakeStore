@@ -106,7 +106,7 @@ class _HomeState extends ConsumerState<Home> {
                                         ),
                                       ],
                                     ),
-                                    Spacings.verySpace(12),
+                                    Spacings.verSpace(12),
                                     Row(
                                       children: [
                                         Padding(
@@ -136,11 +136,20 @@ class _HomeState extends ConsumerState<Home> {
                                                   fontSize: 12,
                                                 ),
                                               ),
-                                              Text(
-                                                '${model.daftarproduct[index].rating.rate} / ${model.daftarproduct[index].rating.count}',
-                                                style: const TextStyle(
-                                                  fontSize: 12,
-                                                ),
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.star_rounded,
+                                                    color: Colors.orange[600],
+                                                    size: 16,
+                                                  ),
+                                                  Text(
+                                                    '${model.daftarproduct[index].rating.rate} / ${model.daftarproduct[index].rating.count}',
+                                                    style: const TextStyle(
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                               Text(
                                                 '\$ ${model.daftarproduct[index].price}',

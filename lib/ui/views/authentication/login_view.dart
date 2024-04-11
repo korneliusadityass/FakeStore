@@ -124,7 +124,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                                   hintText: 'Masukkan Password',
                                 ),
                               ),
-                              Spacings.verySpace(20),
+                              Spacings.verSpace(20),
                               SizedBox(
                                 width: double.infinity,
                                 child: ElevatedButton(
