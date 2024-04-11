@@ -19,33 +19,25 @@ class DashboardPageModel extends BaseViewModel {
     setBusy(false);
   }
 
-  // Future<void> _fetchDataProduct() async {
-  //   final response = await _getDashboard.getData();
-  //   response.fold(
-  //     (failure) {
-  //       print('Failed Fetch Data: ${failure.message}');
-  //       print('Failed Fetch Data: ${failure.errorCode}');
-  //       print('Failed Fetch Data: ${failure.hashCode}');
-  //       print('Failed Fetch Data: ${failure.runtimeType}');
-  //     },
-  //     (getDataContent) {
-  //       _daftarproduct = [getDataContent];
-  //       notify();
-  //     },
-  //   );
-  //   print('data : $getDataContent');
-  // }
-
   Future<void> _fetchDataProduct() async {
     final response = await _getDashboard.getData();
-    if (response.isRight) {
-      _daftarproduct = [response.right];
-      notify();
-    }
-    print('response data= ${response.isRight}');
-    print('response data= ${response.isLeft}');
-    print('response data= ${response.left.message}');
-    print('response data= ${response.left.message}');
-    print('response data= ${response.left.errorCode}');
+    response.fold(
+      (failure) {
+        print('Error occurred: ${failure.message}');
+      },
+      (getDataContent) {
+        _daftarproduct = getDataContent;
+        notify();
+      },
+    );
   }
+
+  // Future<void> _fetchDataProduct() async {
+  //   final response = await _getDashboard.getData();
+  //   if (response.isRight) {
+  //     _daftarproduct = response.right;
+  //     notify();
+  //   }
+  //   print('response = $response');
+  // }
 }

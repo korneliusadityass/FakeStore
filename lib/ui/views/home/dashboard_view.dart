@@ -52,9 +52,8 @@ class _HomeState extends ConsumerState<Home> {
                     ),
                     Expanded(
                       child: GridView.builder(
-                        itemCount: 1,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
+                        itemCount: model.daftarproduct.length,
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           mainAxisSpacing: 14.0,
                           crossAxisSpacing: 14.0,
@@ -81,8 +80,7 @@ class _HomeState extends ConsumerState<Home> {
                                           borderRadius: const BorderRadius.all(
                                             Radius.circular(5),
                                           ),
-                                          child: Image.network(
-                                              'model.daftarproduct[index].image'),
+                                          child: Image.network('model.daftarproduct[index].image'),
                                         ),
                                       ),
                                     ],
@@ -91,18 +89,18 @@ class _HomeState extends ConsumerState<Home> {
                                   Row(
                                     children: [
                                       Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 12),
+                                        padding: const EdgeInsets.only(left: 12),
                                         child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              '${model.daftarproduct[index].title}',
+                                              model.daftarproduct[index].title.length <= 20
+                                                  ? model.daftarproduct[index].title
+                                                  : '${model.daftarproduct[index].title.substring(0, 20)}...',
                                               style: const TextStyle(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
-                                                color: Colors.black12,
+                                                color: Colors.black,
                                               ),
                                             ),
                                           ],
