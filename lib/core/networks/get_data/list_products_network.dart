@@ -19,23 +19,6 @@ class GetDataContentService {
   ) : api = GetDataApi(dio);
   final GetDataApi api;
 
-  // Future<Either<Failure, GetDataContent>> getData() async {
-  //   try {
-  //     final HttpResponse<dynamic> responses = await api.getDataContent(
-  //       'application/json',
-  //     );
-  //     if (responses.isSuccess) {
-  //       return Right<Failure, GetDataContent>(
-  //         GetDataContent.fromJson(
-  //           responses.data,
-  //         ),
-  //       );
-  //     }
-  //     return ErrorUtils<GetDataContent>().handleDomainError(responses);
-  //   } catch (e) {
-  //     return ErrorUtils<GetDataContent>().handleError(e);
-  //   }
-  // }
   Future<Either<Failure, List<GetDataContent>>> getData() async {
     try {
       final response = await api.getDataContent('application/json');

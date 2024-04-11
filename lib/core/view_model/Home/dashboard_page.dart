@@ -31,13 +31,4 @@ class DashboardPageModel extends BaseViewModel {
       },
     );
   }
-
-  // Future<void> _fetchDataProduct() async {
-  //   final response = await _getDashboard.getData();
-  //   if (response.isRight) {
-  //     _daftarproduct = response.right;
-  //     notify();
-  //   }
-  //   print('response = $response');
-  // }
 }

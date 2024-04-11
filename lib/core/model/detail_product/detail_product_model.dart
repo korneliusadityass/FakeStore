@@ -1,10 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'list_products_model.g.dart';
+part 'detail_product_model.g.dart';
 
 @JsonSerializable()
-class GetDataContent {
-  GetDataContent({
+class GetDataProductContent {
+  GetDataProductContent({
     required this.id,
     required this.title,
     required this.price,
@@ -13,9 +13,9 @@ class GetDataContent {
     required this.image,
     required this.rating,
   });
-  factory GetDataContent.fromJson(Map<String, dynamic> json) =>
-      _$GetDataContentFromJson(json);
-  Map<String, dynamic> toJson() => _$GetDataContentToJson(this);
+  factory GetDataProductContent.fromJson(Map<String, dynamic> json) =>
+      _$GetDataProductContentFromJson(json);
+  Map<String, dynamic> toJson() => _$GetDataProductContentToJson(this);
 
   final int id;
   final String title;

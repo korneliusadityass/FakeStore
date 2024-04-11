@@ -1,13 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'list_products_model.dart';
+part of 'detail_product_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-GetDataContent _$GetDataContentFromJson(Map<String, dynamic> json) =>
-    GetDataContent(
+GetDataProductContent _$GetDataProductContentFromJson(
+        Map<String, dynamic> json) =>
+    GetDataProductContent(
       id: json['id'] as int,
       title: json['title'] as String,
       price: (json['price'] as num).toDouble(),
@@ -16,7 +17,8 @@ GetDataContent _$GetDataContentFromJson(Map<String, dynamic> json) =>
       rating: GetRating.fromJson(json['rating'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$GetDataContentToJson(GetDataContent instance) =>
+Map<String, dynamic> _$GetDataProductContentToJson(
+        GetDataProductContent instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
