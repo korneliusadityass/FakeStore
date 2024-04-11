@@ -1,6 +1,6 @@
 import 'package:appsmobile/core/app_constants/route.dart';
 import 'package:appsmobile/core/model/authentication/login.dart';
-import 'package:appsmobile/core/networks/aunthentication_network.dart';
+import 'package:appsmobile/core/networks/authentication/aunthentication_network.dart';
 import 'package:appsmobile/core/services/authentication_services.dart';
 import 'package:appsmobile/core/services/navigation_services.dart';
 import 'package:appsmobile/core/services/shared_preferences_services.dart';

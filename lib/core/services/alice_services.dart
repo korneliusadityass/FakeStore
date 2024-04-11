@@ -1,12 +1,14 @@
 import 'package:alice_lightweight/core/alice_core.dart';
 import 'package:alice_lightweight/ui/page/alice_calls_list_screen.dart';
 import 'package:appsmobile/core/app_constants/env.dart';
-import 'package:appsmobile/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shake/shake.dart';
 
-final Provider<AliceCore> aliceCoreProvider = Provider<AliceCore>((ProviderRef<AliceCore> ref) {
+import '../../main.dart';
+
+final Provider<AliceCore> aliceCoreProvider =
+    Provider<AliceCore>((ProviderRef<AliceCore> ref) {
   return AliceCore(
     navigatorKey,
     false,

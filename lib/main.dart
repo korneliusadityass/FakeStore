@@ -3,17 +3,13 @@ import 'package:appsmobile/router.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: 'asset/cfg/base.env');
-
-  // await Firebase.initializeApp();
 
   runApp(const ProviderScope(child: App()));
 }
@@ -31,7 +27,7 @@ class App extends StatelessWidget {
         brightness: Brightness.light,
       ),
       onGenerateRoute: AppRouter.generateRoute,
-      initialRoute: Routes.splashScreen,
+      initialRoute: Routes.login,
       navigatorKey: navigatorKey,
       builder: BotToastInit(),
       navigatorObservers: <NavigatorObserver>[
