@@ -12,7 +12,6 @@ class Checkout extends StatelessWidget {
     int totalBarang = 0;
     for (var product in selectedProducts) {
       totalHarga += product.price * product.quantity;
-      totalBarang += product.quantity;
     }
     return Scaffold(
       appBar: AppBar(
@@ -52,7 +51,7 @@ class Checkout extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '$totalBarang',
+                  '${product.quantity}',
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -130,8 +129,7 @@ void _showCancelConfirmationDialog(BuildContext context) {
     builder: (BuildContext context) {
       return AlertDialog(
         title: const Text("Cancel Checkout?"),
-        content:
-            const Text("Are you sure you want to cancel the checkout process?"),
+        content: const Text("Are you sure you want to cancel the checkout process?"),
         actions: <Widget>[
           TextButton(
             child: const Text("No"),
@@ -143,8 +141,7 @@ void _showCancelConfirmationDialog(BuildContext context) {
             child: const Text("Yes"),
             onPressed: () {
               Navigator.of(context).pop(); // Tutup dialog
-              Navigator.of(context)
-                  .pop(); // Kembali ke halaman sebelumnya (cart)
+              Navigator.of(context).pop(); // Kembali ke halaman sebelumnya (cart)
             },
           ),
         ],
