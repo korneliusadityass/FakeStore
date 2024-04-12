@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:appsmobile/ui/shared/spacing.dart';
+import 'package:appsmobile/ui/views/checkout_view.dart';
 import 'package:appsmobile/ui/views/detail/detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,12 +27,15 @@ class _CartState extends State<Cart> {
   int _isi = 0;
   bool isSelected = false;
   bool _selectAll = false;
+  bool _isAnyItemSelected =
+      false; // State untuk melacak apakah setidaknya satu item dipilih
 
   @override
   void initState() {
     super.initState();
     for (var product in widget.addCartProduct) {
-      product.controller = TextEditingController(text: product.quantity.toString());
+      product.controller =
+          TextEditingController(text: product.quantity.toString());
       product.controller!.addListener(() {
         int newQuantity = int.tryParse(product.controller!.text) ?? 0;
         if (newQuantity > 99) {
@@ -46,8 +50,10 @@ class _CartState extends State<Cart> {
       setState(() {
         // Iterate through cart data and add products to cart only if they are not already present
         for (var product in cartData) {
-          if (!widget.addCartProduct.any((existingProduct) => existingProduct.id == product.id)) {
-            product.controller = TextEditingController(text: product.quantity.toString());
+          if (!widget.addCartProduct
+              .any((existingProduct) => existingProduct.id == product.id)) {
+            product.controller =
+                TextEditingController(text: product.quantity.toString());
             product.controller!.addListener(() {
               int newQuantity = int.tryParse(product.controller!.text) ?? 0;
               if (newQuantity > 99) {
@@ -64,15 +70,17 @@ class _CartState extends State<Cart> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // Save cart data when the widget is initialized
-    saveCartData(widget.addCartProduct);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Cart',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -93,13 +101,15 @@ class _CartState extends State<Cart> {
                       setState(() {
                         _selectAll = value!;
                         _setAllSelected(value);
+                        _isAnyItemSelected =
+                            value; // Update state ketika checkbox diubah
                       });
                     },
                   ),
                   IconButton(
-                    onPressed: () {
-                      _removeAllItems();
-                    },
+                    onPressed: _isAnyItemSelected
+                        ? _removeAllItems
+                        : null, // Hanya aktif jika setidaknya satu item dipilih
                     icon: const Icon(
                       Icons.delete,
                     ),
@@ -121,6 +131,7 @@ class _CartState extends State<Cart> {
                       onChanged: (value) {
                         setState(() {
                           product.isSelected = value!;
+                          _updateIsAnyItemSelected(); // Memperbarui status ketika checkbox diubah
                         });
                       },
                     ),
@@ -137,7 +148,8 @@ class _CartState extends State<Cart> {
                                 color: Colors.grey.withOpacity(0.4),
                                 spreadRadius: 5,
                                 blurRadius: 10,
-                                offset: const Offset(0, 1), // changes position of shadow
+                                offset: const Offset(
+                                    0, 1), // changes position of shadow
                               ),
                             ],
                           ),
@@ -153,7 +165,9 @@ class _CartState extends State<Cart> {
                               Row(
                                 children: [
                                   Text(
-                                    product.title.length > 25 ? '${product.title.substring(0, 25)}...' : product.title,
+                                    product.title.length > 25
+                                        ? '${product.title.substring(0, 25)}...'
+                                        : product.title,
                                   ),
                                 ],
                               ),
@@ -185,8 +199,10 @@ class _CartState extends State<Cart> {
                                       ),
                                     ),
                                     child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         IconButton(
                                           style: ElevatedButton.styleFrom(
@@ -203,13 +219,18 @@ class _CartState extends State<Cart> {
                                           ),
                                           onPressed: () {
                                             setState(() {
-                                              int newQuantity = int.tryParse(product.controller!.text) ?? jumlah;
+                                              int newQuantity = int.tryParse(
+                                                      product
+                                                          .controller!.text) ??
+                                                  jumlah;
                                               newQuantity--; // Mengurangi jumlah
                                               if (newQuantity < 1) {
                                                 newQuantity = 1;
                                               }
-                                              product.controller!.text = newQuantity.toString();
-                                              widget.onQuantityChanged(product, newQuantity);
+                                              product.controller!.text =
+                                                  newQuantity.toString();
+                                              widget.onQuantityChanged(
+                                                  product, newQuantity);
                                             });
                                           },
                                           icon: const Icon(
@@ -224,34 +245,47 @@ class _CartState extends State<Cart> {
                                             controller: product.controller,
                                             textAlign: TextAlign.center,
                                             onChanged: (value) {
-                                              int newQuantity = int.tryParse(value) ?? 0;
+                                              int newQuantity =
+                                                  int.tryParse(value) ?? 0;
                                               if (newQuantity > 99) {
                                                 newQuantity = 99;
                                                 jumlahController.text = '99';
                                               }
                                               setState(() {
                                                 _isi = newQuantity;
-                                                widget.onQuantityChanged(product, newQuantity);
+                                                widget.onQuantityChanged(
+                                                    product, newQuantity);
                                               });
                                             },
-                                            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))],
+                                            inputFormatters: [
+                                              FilteringTextInputFormatter.allow(
+                                                  RegExp(r'[0-9]'))
+                                            ],
                                             keyboardType: TextInputType.number,
                                             decoration: InputDecoration(
-                                              contentPadding: const EdgeInsets.symmetric(
+                                              contentPadding:
+                                                  const EdgeInsets.symmetric(
                                                 vertical: 8.5,
                                               ),
                                               hintStyle: const TextStyle(
-                                                color: Colors.black, // Ubah ke warna yang sesuai
+                                                color: Colors
+                                                    .black, // Ubah ke warna yang sesuai
                                                 fontWeight: FontWeight.w300,
                                                 fontSize: 14,
                                               ),
                                               enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(8.0),
-                                                borderSide: const BorderSide(color: Colors.transparent, width: 1.0),
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                borderSide: const BorderSide(
+                                                    color: Colors.transparent,
+                                                    width: 1.0),
                                               ),
                                               focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(8.0),
-                                                borderSide: const BorderSide(color: Colors.transparent, width: 1.0),
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                borderSide: const BorderSide(
+                                                    color: Colors.transparent,
+                                                    width: 1.0),
                                               ),
                                             ),
                                           ),
@@ -272,13 +306,19 @@ class _CartState extends State<Cart> {
                                           onPressed: jumlah < 99
                                               ? () {
                                                   setState(() {
-                                                    int newQuantity = int.tryParse(product.controller!.text) ?? jumlah;
+                                                    int newQuantity =
+                                                        int.tryParse(product
+                                                                .controller!
+                                                                .text) ??
+                                                            jumlah;
                                                     newQuantity++; // Menambah jumlah
                                                     if (newQuantity > 99) {
                                                       newQuantity = 99;
                                                     }
-                                                    product.controller!.text = newQuantity.toString();
-                                                    widget.onQuantityChanged(product, newQuantity);
+                                                    product.controller!.text =
+                                                        newQuantity.toString();
+                                                    widget.onQuantityChanged(
+                                                        product, newQuantity);
                                                   });
                                                 }
                                               : null,
@@ -300,29 +340,52 @@ class _CartState extends State<Cart> {
                 },
               ),
             ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _isAnyItemSelected
+                    ? () {
+                        List<AddProduct> selectedProducts = widget
+                            .addCartProduct
+                            .where((product) => product.isSelected)
+                            .toList();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                Checkout(selectedProducts: selectedProducts),
+                          ),
+                        );
+                      }
+                    : null,
+                child: const Text('Checkout'),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  @override
-  void dispose() {
-    // Save cart data when the widget is disposed (leaving the page)
-    saveCartData(widget.addCartProduct);
-    super.dispose();
-  }
-
   void _setAllSelected(bool value) {
     for (var product in widget.addCartProduct) {
       product.isSelected = value;
     }
+    _updateIsAnyItemSelected();
+  }
+
+  void _updateIsAnyItemSelected() {
+    setState(() {
+      _isAnyItemSelected =
+          widget.addCartProduct.any((product) => product.isSelected);
+    });
   }
 
   void _removeAllItems() {
     setState(() {
       widget.addCartProduct.clear();
-      saveCartData(widget.addCartProduct); // Save cart data after removing all items
+      saveCartData(
+          widget.addCartProduct); // Save cart data after removing all items
     });
   }
 
@@ -333,7 +396,10 @@ class _CartState extends State<Cart> {
     });
   }
 
-  // Save cart data to SharedPreferences
+  void _checkout() {
+    // Implement your checkout logic here
+  }
+
   // Save cart data to SharedPreferences
   void saveCartData(List<AddProduct> cartProducts) async {
     final prefsInstance = await SharedPreferences.getInstance();
@@ -347,7 +413,8 @@ class _CartState extends State<Cart> {
     final cartData = prefs.getString('cartData');
     if (cartData != null) {
       final decodedData = jsonDecode(cartData) as List;
-      List<AddProduct> loadedProducts = decodedData.map((json) => AddProduct.fromJson(json)).toList();
+      List<AddProduct> loadedProducts =
+          decodedData.map((json) => AddProduct.fromJson(json)).toList();
 
       // Filter out duplicate products based on their IDs
       Map<int, AddProduct> uniqueProductsMap = {};

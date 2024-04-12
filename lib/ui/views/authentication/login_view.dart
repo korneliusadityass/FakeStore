@@ -24,10 +24,12 @@ class LoginViewParam {
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({
     required this.param,
+    this.enabledObsecureText = false,
     super.key,
   });
 
   final LoginViewParam param;
+  final bool enabledObsecureText;
 
   @override
   ConsumerState<LoginView> createState() => _LoginViewState();
@@ -35,6 +37,7 @@ class LoginView extends ConsumerStatefulWidget {
 
 class _LoginViewState extends ConsumerState<LoginView> {
   final FocusNode _focus = FocusNode();
+  bool _showPasswordEnabled = true;
 
   @override
   Widget build(BuildContext context) {
@@ -50,14 +53,19 @@ class _LoginViewState extends ConsumerState<LoginView> {
               isLoading: model.busy,
               child: UnfocusHelper(
                 child: Scaffold(
-                  body: SingleChildScrollView(
-                    child: SafeArea(
-                        child: Column(
+                  body: SafeArea(
+                      child: Container(
+                    height: double.infinity,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('asset/image/NO8hx.png'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        // Image.asset(
-                        //   'assets/images/NO8hx.png',
-                        //   width: double.infinity,
-                        // ),
                         Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 24,
@@ -70,7 +78,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                                 style: TextStyle(
                                   fontSize: 48,
                                   fontWeight: FontWeight.w700,
-                                  color: Colors.blueAccent,
+                                  color: Colors.black,
                                 ),
                               ),
                               const Row(
@@ -80,7 +88,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                                     'Username',
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
-                                      fontWeight: FontWeight.w400,
+                                      fontWeight: FontWeight.bold,
                                       fontSize: 16,
                                     ),
                                   ),
@@ -91,7 +99,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                                 decoration: const InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.all(
-                                      Radius.circular(2),
+                                      Radius.circular(10),
                                     ),
                                   ),
                                   hintText: 'Masukkan Username',
@@ -107,7 +115,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                                     'Password',
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
-                                      fontWeight: FontWeight.w400,
+                                      fontWeight: FontWeight.bold,
                                       fontSize: 16,
                                     ),
                                   ),
@@ -115,13 +123,27 @@ class _LoginViewState extends ConsumerState<LoginView> {
                               ),
                               TextFormField(
                                 controller: model.passwordController,
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(
+                                obscureText: _showPasswordEnabled,
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(
                                     borderRadius: BorderRadius.all(
-                                      Radius.circular(2),
+                                      Radius.circular(10),
                                     ),
                                   ),
                                   hintText: 'Masukkan Password',
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      _showPasswordEnabled
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _showPasswordEnabled =
+                                            !_showPasswordEnabled;
+                                      });
+                                    },
+                                  ),
                                 ),
                               ),
                               Spacings.verSpace(20),
@@ -141,7 +163,6 @@ class _LoginViewState extends ConsumerState<LoginView> {
 
                                     if (model.usernameController.text.isEmpty ||
                                         model.passwordController.text.isEmpty) {
-                                      //TODO: handle required field
                                       return;
                                     }
 
@@ -161,6 +182,9 @@ class _LoginViewState extends ConsumerState<LoginView> {
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.blueAccent,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                   ),
                                   child: const Text(
                                     'Login',
@@ -176,8 +200,8 @@ class _LoginViewState extends ConsumerState<LoginView> {
                           ),
                         ),
                       ],
-                    )),
-                  ),
+                    ),
+                  )),
                 ),
               ));
         });

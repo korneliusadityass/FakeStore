@@ -43,6 +43,7 @@ class AppRouter {
           argsIsInvalid = true;
           // continue invalidArgs;
         }
+        
 
         return buildRoute(
           builder: (_) => DetailProduct(
