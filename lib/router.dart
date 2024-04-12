@@ -1,13 +1,11 @@
 import 'package:appsmobile/core/app_constants/route.dart';
-import 'package:appsmobile/ui/views/cart_view.dart';
 import 'package:appsmobile/ui/views/detail/detail_view.dart';
 import 'package:appsmobile/ui/views/home/dashboard_view.dart';
 import 'package:flutter/material.dart';
 
 import 'ui/views/authentication/login_view.dart';
 
-final RouteObserver<PageRoute<dynamic>> routeObserver =
-    RouteObserver<PageRoute<dynamic>>();
+final RouteObserver<PageRoute<dynamic>> routeObserver = RouteObserver<PageRoute<dynamic>>();
 
 class AppRouter {
   static Route<dynamic>? generateRoute(RouteSettings settings) {
@@ -26,9 +24,8 @@ class AppRouter {
 
     switch (settings.name) {
       case Routes.login:
-        final LoginViewParam param = settings.arguments is LoginViewParam
-            ? settings.arguments as LoginViewParam
-            : LoginViewParam();
+        final LoginViewParam param =
+            settings.arguments is LoginViewParam ? settings.arguments as LoginViewParam : LoginViewParam();
         return buildRoute(
           builder: (_) => LoginView(
             param: param,
@@ -52,12 +49,12 @@ class AppRouter {
             param: param,
           ),
         );
-      case Routes.cart:
-        return buildRoute(
-          builder: (_) => const Cart(
-            addCartProduct: [],
-          ),
-        );
+      // case Routes.cart:
+      //   return buildRoute(
+      //     builder: (_) => const Cart(
+      //       addCartProduct: [],
+      //     ),
+      //   );
       default:
         return null;
     }

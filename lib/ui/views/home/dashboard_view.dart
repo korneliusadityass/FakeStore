@@ -4,6 +4,7 @@ import 'package:appsmobile/core/view_model/Home/dashboard_page.dart';
 import 'package:appsmobile/core/view_model/view_model.dart';
 import 'package:appsmobile/ui/shared/loading.dart';
 import 'package:appsmobile/ui/shared/spacing.dart';
+import 'package:appsmobile/ui/views/cart_view.dart';
 import 'package:appsmobile/ui/views/detail/detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,6 +19,7 @@ class Home extends ConsumerStatefulWidget {
 class _HomeState extends ConsumerState<Home> {
   @override
   Widget build(BuildContext context) {
+    List<AddProduct> addCartProduct = [];
     return ViewModel<DashboardPageModel>(
         model: DashboardPageModel(
           getDashboard: ref.read(getDataContent),
@@ -39,7 +41,22 @@ class _HomeState extends ConsumerState<Home> {
                 ),
                 actions: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Cart(
+                            addCartProduct: addCartProduct,
+                            onQuantityChanged: (product, newQuantity) {
+                              // Update the quantity of the product in the cart
+                              setState(() {
+                                product.quantity = newQuantity;
+                              });
+                            },
+                          ),
+                        ),
+                      );
+                    },
                     icon: const Icon(Icons.shopping_cart),
                   ),
                 ],
@@ -62,8 +79,7 @@ class _HomeState extends ConsumerState<Home> {
                       Expanded(
                         child: GridView.builder(
                           itemCount: model.daftarproduct.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             mainAxisSpacing: 5.0,
                             crossAxisSpacing: 5.0,
@@ -88,13 +104,11 @@ class _HomeState extends ConsumerState<Home> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Expanded(
                                           child: ClipRRect(
-                                            borderRadius:
-                                                const BorderRadius.all(
+                                            borderRadius: const BorderRadius.all(
                                               Radius.circular(5),
                                             ),
                                             child: Image.network(
@@ -110,18 +124,13 @@ class _HomeState extends ConsumerState<Home> {
                                     Row(
                                       children: [
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 12),
+                                          padding: const EdgeInsets.only(left: 12),
                                           child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                model.daftarproduct[index].title
-                                                            .length <=
-                                                        15
-                                                    ? model.daftarproduct[index]
-                                                        .title
+                                                model.daftarproduct[index].title.length <= 15
+                                                    ? model.daftarproduct[index].title
                                                     : '${model.daftarproduct[index].title.substring(0, 15)}...',
                                                 style: const TextStyle(
                                                   fontSize: 14,
@@ -130,8 +139,7 @@ class _HomeState extends ConsumerState<Home> {
                                                 ),
                                               ),
                                               Text(
-                                                model.daftarproduct[index]
-                                                    .category,
+                                                model.daftarproduct[index].category,
                                                 style: const TextStyle(
                                                   fontSize: 12,
                                                 ),
