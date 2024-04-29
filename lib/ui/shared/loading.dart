@@ -5,8 +5,8 @@ class LoadingOverlay extends StatelessWidget {
     required this.child,
     this.isLoading = false,
     this.overlayOpacity = 0.6,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   final Widget child;
   final bool isLoading;
   final double overlayOpacity;

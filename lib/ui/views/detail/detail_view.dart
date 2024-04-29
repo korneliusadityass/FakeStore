@@ -137,8 +137,9 @@ class _DetailProductState extends ConsumerState<DetailProduct> {
                 model.initModel();
               },
               child: model.busy
-                  ? const Expanded(
-                      child: Center(
+                  ? Container(
+                      color: Colors.white,
+                      child: const Center(
                         child: CircularProgressIndicator(),
                       ),
                     )
